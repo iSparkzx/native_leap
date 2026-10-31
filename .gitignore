@@ -1,0 +1,9 @@
+# Build output. Regenerate with `deno task build`.
+dist/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
