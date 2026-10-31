@@ -12,7 +12,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script>document.documentElement.classList.add("js")</script>
+  <!-- Scripted states hide content until main.js reveals it. If main.js has not started within 4s (missing,
+       blocked, too new for the browser), drop them so the page reads without it. -->
+  <script>document.documentElement.classList.add("js");setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("js-ready"))r.classList.remove("js")},4000)</script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -31,11 +33,12 @@
         <li><a class="pill pill--quiet" href="#team">Team</a></li>
       </ul>
       <a class="pill" href="#contact">Contact</a>
-      <button class="pill menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <button class="pill menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">Menu</button>
     </nav>
   </header>
 
   <div class="menu" id="menu" hidden>
+    <nav aria-label="Menu">
     <ul>
       <li><a href="#field-notes">Field notes</a></li>
       <li><a href="#approach">Approach</a></li>
@@ -46,6 +49,7 @@
       <li><a href="#team">Team</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    </nav>
   </div>
 
   <main id="main">
@@ -138,7 +142,7 @@
             <span class="note-cta" aria-hidden="true">Watch the video <span class="arrow">→</span></span>
           </li>
         </ul>
-        <form class="subscribe" data-form data-sent="Thanks. This is a placeholder signup, so nothing was sent." novalidate>
+        <form class="subscribe" data-form data-sent="Thanks. This is a placeholder signup, so nothing was sent." method="post">
           <label class="subscribe-label" for="notes-email"><b>One field note a month.</b> No pitch, and you can unsubscribe any time.</label>
           <div class="subscribe-row">
             <input id="notes-email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required>
@@ -173,7 +177,7 @@
             <figure class="plate plate--rule" data-plate="approach">
               <figcaption class="plate-head"><span class="plate-num" data-plate-num>Fig. 1a</span><span class="plate-title" data-plate-title>Assess · where the hours go</span></figcaption>
               <canvas class="plate-canvas" data-plate-canvas role="img" aria-label="Schematic figure for the step being read."></canvas>
-              <div class="plate-foot"><span>Schematic, not measured. Blue: work moving on its own. Violet: what each step yields.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false">Pause</button></div>
+              <div class="plate-foot"><span>Schematic, not measured. Blue: work moving on its own. Violet: what each step yields.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false" hidden>Pause</button></div>
             </figure>
             <div class="ladder-rail" aria-hidden="true"><i></i></div>
             <p class="ladder-name mono" data-ladder-name aria-hidden="true">Assess</p>
@@ -224,7 +228,7 @@
           <p class="label mono"><span>(04)</span> How it works</p>
           <h2 class="h2" id="stack-title" data-reveal>What we build is yours to&nbsp;keep.</h2>
           <p class="lede" data-reveal>Every engagement runs on the same delivery stack, so the second workflow costs a fraction of the first. It lives in your accounts, not ours.</p>
-          <p class="stack-detail mono" aria-live="polite" data-stack-detail>Hover a layer to see what it does.</p>
+          <p class="stack-detail" aria-live="polite" data-stack-detail></p>
         </div>
 
         <ol class="layers" aria-label="Delivery stack, from your systems to your team">
@@ -242,7 +246,7 @@
         <figure class="plate plate--paper stack-plate" data-plate="stack">
           <figcaption class="plate-head"><span class="plate-num">Fig. 2</span><span class="plate-title">The delivery stack, one item of work at a time</span></figcaption>
           <canvas class="plate-canvas" data-plate-canvas role="img" aria-label="Schematic: items of work leave your systems, pass through connectors into the knowledge layer, go through MCP tools to an agent, are scored and cross four gates (Draft, Review, Approve, Apply), and reach your team. In the simulation every fourth item waits at Review for a person."></canvas>
-          <div class="plate-foot"><span>Each blue dot is one item of work moving on its own. In this simulation every fourth item turns black and waits for a person at Review. Violet: delivered to your team. Schematic, not measured.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false">Pause</button></div>
+          <div class="plate-foot"><span>Each blue dot is one item of work moving on its own. In this simulation every fourth item turns black and waits for a person at Review. Violet: delivered to your team. Schematic, not measured.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false" hidden>Pause</button></div>
         </figure>
       </div>
     </section>
@@ -257,30 +261,30 @@
 
         <div class="ind-grid">
           <div class="ind-side">
-            <div class="ind-tabs" role="tablist" aria-label="Industry">
+            <div class="ind-tabs" role="tablist" aria-label="Industry" hidden>
               <!-- rendered from content.ts -->
             </div>
             <figure class="plate plate--rule ind-plate" data-plate="industry">
               <figcaption class="plate-head"><span class="plate-num">Fig. 3</span><span class="plate-title">The path of one item</span></figcaption>
               <canvas class="plate-canvas" data-plate-canvas role="img" aria-label="Schematic: one item's path across a terrain, one waypoint per step of the workflow. A marker waits at each step a person does, in proportion to its minutes. With Native Leap the terrain flattens and the path straightens; the old route stays as a dashed line."></canvas>
-              <div class="plate-foot"><span>Filled: a person's time. Ring: runs on its own. Blue: the route with Native Leap. The marker waits one second for every three minutes. Terrain is schematic.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false">Pause</button></div>
+              <div class="plate-foot"><span>Filled: a person's time. Ring: runs on its own. Blue: the route with Native Leap. The marker waits one second for every three minutes. Terrain is schematic.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false" hidden>Pause</button></div>
             </figure>
           </div>
 
-          <div class="ind-panel" id="ind-panel" role="tabpanel">
+          <div class="ind-panel" id="ind-panel">
             <div class="ind-head">
               <p class="mono ind-kicker">Example workflow</p>
-              <h3 class="ind-title" data-ind-title>Order entry from emailed POs</h3>
+              <h3 class="ind-title" data-ind-title><!-- @industry title --></h3>
             </div>
-            <div class="toggle" role="group" aria-label="Show the workflow">
+            <div class="toggle" role="group" aria-label="Show the workflow" hidden>
               <button type="button" class="toggle-btn" aria-pressed="true" data-mode="today">Today</button>
               <button type="button" class="toggle-btn" aria-pressed="false" data-mode="after">With Native Leap</button>
               <i class="toggle-thumb" aria-hidden="true"></i>
             </div>
-            <ol class="ind-steps" data-ind-steps></ol>
+            <ol class="ind-steps" data-ind-steps><!-- @industry steps --></ol>
             <div class="ind-total">
-              <span class="mono">Time per order</span>
-              <span class="ind-total-num"><span data-ind-total>18</span> min</span>
+              <span class="mono"><!-- @industry unit --></span>
+              <span class="ind-total-num"><span data-ind-total><!-- @industry total --></span> min</span>
             </div>
             <p class="fineprint mono">Illustrative times. Your real numbers come out of Assess.</p>
           </div>
@@ -295,9 +299,9 @@
         <h2 class="h2 results-title" id="results-title" data-reveal>A regional distributor got its inside sales team&nbsp;back.</h2>
 
         <dl class="stats">
-          <div class="stat"><dt class="mono">Less time on order entry</dt><dd><span data-count="82">0</span>%</dd></div>
-          <div class="stat"><dt class="mono">Hours back per rep, per week</dt><dd><span data-count="9">0</span></dd></div>
-          <div class="stat"><dt class="mono">Weeks from first call to live</dt><dd><span data-count="11">0</span></dd></div>
+          <div class="stat"><dt class="mono">Less time on order entry</dt><dd><span data-count="82">82</span>%</dd></div>
+          <div class="stat"><dt class="mono">Hours back per rep, per week</dt><dd><span data-count="9">9</span></dd></div>
+          <div class="stat"><dt class="mono">Weeks from first call to live</dt><dd><span data-count="11">11</span></dd></div>
         </dl>
 
         <figure class="plate plate--paper chart-plate" data-plate="chart">
@@ -477,7 +481,7 @@
           <h2 class="h2 contact-title" id="contact-title" data-reveal>Bring us the process that eats the most&nbsp;hours.</h2>
           <p class="lede" data-reveal>Thirty minutes. We'll tell you honestly whether AI is the right fix, and what it would take.</p>
         </div>
-        <form class="form" data-form novalidate>
+        <form class="form" data-form method="post">
           <label class="field">
             <span class="mono">Work email</span>
             <input type="email" name="email" autocomplete="email" placeholder="you@company.com" required>

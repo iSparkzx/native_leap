@@ -6,7 +6,8 @@ import { prefersReducedMotion } from "../lib/util.ts";
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 export function initIntro(): void {
-  if (prefersReducedMotion()) return;
+  // Arriving after the index.html failsafe dropped .js, the hero is already shown; don't hide it to replay.
+  if (prefersReducedMotion() || !document.documentElement.classList.contains("js")) return;
 
   const run = (): void => {
     const rise = (el: Element | null, delay: number, distance = 18): void => {

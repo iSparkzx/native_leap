@@ -88,7 +88,7 @@ export function mountPlate(figure: HTMLElement, app: PlateApp): PlateHandle | nu
   };
 
   if (toggle) {
-    if (reduced) toggle.hidden = true;
+    toggle.hidden = reduced;
     toggle.addEventListener("click", () => {
       paused = !paused;
       toggle.textContent = paused ? "Play" : "Pause";
