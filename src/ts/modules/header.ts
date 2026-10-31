@@ -1,7 +1,8 @@
-import { onTick } from "../lib/ticker.ts";
+import { onScrollFrame } from "../lib/ticker.ts";
 
 /* The header takes the colour of the band beneath it, turns solid once the hero is behind it,
-   hides while scrolling down and returns on the way up. The menu covers the page on small screens. */
+   hides while scrolling down and returns on the way up. It updates on scroll, focus and menu changes only.
+   The menu covers the page on small screens. */
 
 export function initHeader(): void {
   const header = document.querySelector<HTMLElement>(".site-header");
@@ -14,7 +15,7 @@ export function initHeader(): void {
   let travel = 0;
   let menuOpen = false;
 
-  onTick(() => {
+  const update = onScrollFrame(() => {
     const y = window.scrollY;
     const probe = header.offsetHeight / 2;
     let theme = "dark";
@@ -37,6 +38,7 @@ export function initHeader(): void {
     if (menuOpen || focusInside || y < 400 || travel < -12) header.classList.remove("is-hidden");
     else if (travel > 24) header.classList.add("is-hidden");
   });
+  header.addEventListener("focusin", update);
 
   if (!toggle || !menu) return;
 
@@ -46,7 +48,10 @@ export function initHeader(): void {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.textContent = open ? "Close" : "Menu";
     document.documentElement.style.overflow = open ? "hidden" : "";
+    // The menu covers the page, so the page behind it leaves the tab order and the accessibility tree.
+    for (const el of document.querySelectorAll<HTMLElement>("main, footer")) el.inert = open;
     if (open) menu.querySelector<HTMLAnchorElement>("a")?.focus();
+    update();
   };
 
   toggle.addEventListener("click", () => setMenu(!menuOpen));

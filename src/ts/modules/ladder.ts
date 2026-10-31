@@ -1,4 +1,4 @@
-import { onTick } from "../lib/ticker.ts";
+import { onScrollFrame } from "../lib/ticker.ts";
 
 /* Approach section: the step nearest the reading line is active. The rail fills, the name updates and
    the engraved plate beside the steps (plates/approach.ts) switches to that step's figure. */
@@ -10,7 +10,7 @@ export function initLadder(): void {
   if (!steps.length) return;
 
   let active = -1;
-  onTick(() => {
+  onScrollFrame(() => {
     const line = window.innerHeight * 0.55;
     let index = 0;
     steps.forEach((step, i) => {

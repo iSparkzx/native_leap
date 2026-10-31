@@ -6,8 +6,10 @@ export function initStack(): void {
   const detail = document.querySelector<HTMLElement>("[data-stack-detail]");
   if (!layers.length) return;
 
-  if (detail && !window.matchMedia("(hover: hover)").matches) detail.textContent = "Tap a layer to see what it does.";
-  const defaultText = detail?.textContent ?? "";
+  const defaultText = window.matchMedia("(hover: hover)").matches
+    ? "Hover or focus a layer to see what it does."
+    : "Tap a layer to see what it does.";
+  if (detail) detail.textContent = defaultText;
   for (const layer of layers) {
     layer.tabIndex = 0;
     const show = (): void => {

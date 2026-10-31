@@ -285,6 +285,12 @@ button, input {
   box-shadow: inset 0 -1px 0 var(--line);
 }
 
+/* Without scripts the header can't follow the band beneath it, so it stays solid. */
+html:not(.js) .site-header {
+  background: var(--bg);
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+
 .site-header.is-hidden {
   translate: 0 -100%;
 }
@@ -294,8 +300,9 @@ button, input {
   margin-left: -8px; /* the SVG carries its own clear space */
 }
 
+/* Never below the brand's 180px minimum for the horizontal logo; that width includes the artwork's padding. */
 .logo--horizontal {
-  width: clamp(150px, 14vw, 188px);
+  width: clamp(180px, 14vw, 188px);
   height: auto;
 }
 
@@ -320,6 +327,8 @@ button, input {
   inset: 0;
   z-index: 25;
   padding: calc(var(--header-h) + 32px) var(--gutter) 40px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--obsidian);
   color: var(--white);
 }
@@ -332,7 +341,7 @@ button, input {
   display: block;
   padding: 14px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-  font-size: clamp(32px, 9vw, 48px);
+  font-size: clamp(26px, min(9vw, 6.5vh), 48px);
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.05;
@@ -344,6 +353,20 @@ button, input {
   position: relative;
   background: var(--bg);
   color: var(--fg);
+}
+
+/* Set inline on each white band by scrollFx.ts as it enters and leaves. Not inherited, so a change restyles the
+   band alone, not everything inside it. */
+@property --shift-l {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+@property --shift-r {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
 }
 
 .band--light {
@@ -545,8 +568,9 @@ button, input {
   text-wrap: pretty;
 }
 
+/* Unlit words at 0.46 still read at 4.5:1 on Obsidian. */
 .js .statement-text .w {
-  color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.46);
   transition: color 0.35s linear;
 }
 
@@ -606,6 +630,9 @@ button, input {
   gap: 8px 24px;
   padding: 36px 0 56px;
   border-top: 1px solid var(--line);
+}
+
+.step > * {
   transition: opacity 0.6s var(--ease-out);
 }
 
@@ -613,8 +640,14 @@ button, input {
   border-bottom: 1px solid var(--line);
 }
 
-.js .step:not(.is-active) {
-  opacity: 0.3;
+/* Steps away from the reading line dim, but stay readable: titles are large text and keep 3:1 at 0.45, the rest
+   keeps 4.5:1 at 0.9. */
+.js .step:not(.is-active) > * {
+  opacity: 0.9;
+}
+
+.js .step:not(.is-active) .step-title {
+  opacity: 0.45;
 }
 
 .step-meta {
@@ -691,7 +724,7 @@ button, input {
   padding-top: 16px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -778,6 +811,11 @@ button, input {
 
 .ind-tabs {
   display: grid;
+}
+
+.ind-tabs[hidden],
+.toggle[hidden] {
+  display: none;
 }
 
 .ind-tab {
@@ -1208,7 +1246,7 @@ button, input {
   max-width: 54ch;
   margin-top: 8px;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -1347,7 +1385,7 @@ button, input {
 .case-metric {
   margin-top: 14px;
   color: var(--silver);
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .case-metric b {
@@ -1875,7 +1913,7 @@ button, input {
   max-width: 30ch;
   margin-top: 10px;
   color: var(--silver);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.45;
 }
 
@@ -2117,8 +2155,22 @@ button, input {
 
 /* ---------- Engraved figures (plates) ---------- */
 
+/* The figures, the Approach rail and the industry tabs need scripts; without them they would be empty frames or
+   stuck controls, so their columns go and the content takes the full width. */
+html:not(.js) [data-plate],
+html:not(.js) .ladder-aside,
+html:not(.js) .ind-side {
+  display: none;
+}
+
+html:not(.js) .ladder-grid,
+html:not(.js) .ind-grid {
+  grid-template-columns: 1fr;
+}
+
 .plate {
   --accent: var(--ion); /* plates are always white paper, even on dark bands */
+  container-type: inline-size;
   margin: 0;
   color: var(--ink);
   font-family: var(--serif);
@@ -2205,7 +2257,33 @@ button, input {
 }
 
 .chart {
-  min-height: 300px;
+  min-height: clamp(300px, 34cqi, 380px);
+}
+
+/* Each figure's final height, reserved before its script draws it so nothing below jumps. Same formulas as
+   heightFor in plates/*.ts and the chart's build(), in units of the figure's own width. */
+[data-plate="approach"] .plate-canvas {
+  height: 84cqi;
+}
+
+[data-plate="stack"] .plate-canvas {
+  height: 1166px;
+}
+
+[data-plate="industry"] .plate-canvas {
+  height: clamp(210px, 62cqi, 290px);
+}
+
+@container (min-width: 860px) {
+  [data-plate="stack"] .plate-canvas {
+    height: clamp(230px, calc(44px + 0.18 * (100cqi - 4 * clamp(62px, 5.6cqi, 84px))), 300px);
+  }
+}
+
+@container (max-width: 639px) {
+  .chart {
+    min-height: 300px;
+  }
 }
 
 .chart-svg {
@@ -2381,6 +2459,10 @@ button, input {
   }
 
   /* On small screens the plate rides at the top while the steps scroll beneath it. */
+  [data-plate="approach"] .plate-canvas {
+    height: clamp(170px, 50cqi, 230px);
+  }
+
   .ladder-aside {
     top: 0;
     z-index: 2;
@@ -2422,7 +2504,7 @@ button, input {
     flex-wrap: wrap;
   }
 
-  .js .step:not(.is-active) {
+  .js .step:not(.is-active) > * {
     opacity: 1;
   }
 
@@ -2512,6 +2594,13 @@ button, input {
 
   .contact-grid {
     align-items: start;
+  }
+}
+
+/* On short screens a sticky Fig. 1 would cover most of the view, so it scrolls with the steps. */
+@media (max-width: 900px) and (max-height: 700px) {
+  .ladder-aside {
+    position: static;
   }
 }
 
@@ -2614,10 +2703,6 @@ button, input {
 }
 
 @media (max-width: 420px) {
-  .logo--horizontal {
-    width: 140px;
-  }
-
   .nav .pill:not(.menu-toggle):not(.pill--quiet) {
     display: none;
   }
