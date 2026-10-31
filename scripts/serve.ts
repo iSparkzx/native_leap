@@ -10,7 +10,7 @@ const types: Record<string, string> = {
   png: "image/png",
 };
 
-Deno.serve({ hostname: "127.0.0.1", port: 5174 }, async (request) => {
+export async function handle(request: Request): Promise<Response> {
   const { pathname } = new URL(request.url);
   const file = pathname === "/" ? "index.html" : decodeURIComponent(pathname.slice(1));
   if (file.includes("..")) return new Response("Not found", { status: 404 });
@@ -21,4 +21,6 @@ Deno.serve({ hostname: "127.0.0.1", port: 5174 }, async (request) => {
   } catch {
     return new Response("Not found", { status: 404 });
   }
-});
+}
+
+if (import.meta.main) Deno.serve({ hostname: "127.0.0.1", port: 5174 }, handle);
