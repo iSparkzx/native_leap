@@ -28,7 +28,6 @@ export function initIndustries(): void {
 
   tabList.innerHTML = tabsHtml();
   const tabs = Array.from(tabList.querySelectorAll<HTMLButtonElement>(".ind-tab"));
-  // Without scripts the build shows the first workflow as plain content; the tabs and toggle need this script.
   tabList.hidden = false;
   toggle.hidden = false;
   panel.setAttribute("role", "tabpanel");

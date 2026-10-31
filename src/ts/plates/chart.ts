@@ -67,7 +67,7 @@ export function initResultsChart(): void {
     width = Math.round(host.clientWidth);
     if (!width) return;
     const narrow = width < 640;
-    const height = narrow ? 300 : clamp(Math.round(width * 0.34), 300, 380);
+    const height = Math.round(parseFloat(getComputedStyle(host).minHeight)) || 300;
     geometry = { left: narrow ? 40 : 52, right: width - 14, top: 34, bottom: height - (narrow ? 40 : 44) };
     const { left, right, top, bottom } = geometry;
     const parts: string[] = [];

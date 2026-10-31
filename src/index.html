@@ -12,9 +12,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <!-- Scripted states hide content until main.js reveals it. If main.js has not started within 4s (missing,
-       blocked, too new for the browser), drop them so the page reads without it. -->
-  <script>document.documentElement.classList.add("js");setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("js-ready"))r.classList.remove("js")},4000)</script>
+  <script>
+    document.documentElement.classList.add("js");
+    var MAIN_SCRIPT_GRACE_MS = 4000;
+    setTimeout(function showPageWithoutScripts() {
+      var root = document.documentElement;
+      if (!root.classList.contains("js-ready")) root.classList.remove("js");
+    }, MAIN_SCRIPT_GRACE_MS);
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -173,8 +178,8 @@
         </header>
 
         <div class="ladder-grid">
-          <div class="ladder-aside">
-            <figure class="plate plate--rule" data-plate="approach">
+          <div class="ladder-aside" data-needs-script>
+            <figure class="plate plate--rule" data-plate="approach" data-needs-script>
               <figcaption class="plate-head"><span class="plate-num" data-plate-num>Fig. 1a</span><span class="plate-title" data-plate-title>Assess · where the hours go</span></figcaption>
               <canvas class="plate-canvas" data-plate-canvas role="img" aria-label="Schematic figure for the step being read."></canvas>
               <div class="plate-foot"><span>Schematic, not measured. Blue: work moving on its own. Violet: what each step yields.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false" hidden>Pause</button></div>
@@ -243,7 +248,7 @@
         </ol>
       </div>
       <div class="wrap">
-        <figure class="plate plate--paper stack-plate" data-plate="stack">
+        <figure class="plate plate--paper stack-plate" data-plate="stack" data-needs-script>
           <figcaption class="plate-head"><span class="plate-num">Fig. 2</span><span class="plate-title">The delivery stack, one item of work at a time</span></figcaption>
           <canvas class="plate-canvas" data-plate-canvas role="img" aria-label="Schematic: items of work leave your systems, pass through connectors into the knowledge layer, go through MCP tools to an agent, are scored and cross four gates (Draft, Review, Approve, Apply), and reach your team. In the simulation every fourth item waits at Review for a person."></canvas>
           <div class="plate-foot"><span>Each blue dot is one item of work moving on its own. In this simulation every fourth item turns black and waits for a person at Review. Violet: delivered to your team. Schematic, not measured.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false" hidden>Pause</button></div>
@@ -260,11 +265,11 @@
         </header>
 
         <div class="ind-grid">
-          <div class="ind-side">
+          <div class="ind-side" data-needs-script>
             <div class="ind-tabs" role="tablist" aria-label="Industry" hidden>
               <!-- rendered from content.ts -->
             </div>
-            <figure class="plate plate--rule ind-plate" data-plate="industry">
+            <figure class="plate plate--rule ind-plate" data-plate="industry" data-needs-script>
               <figcaption class="plate-head"><span class="plate-num">Fig. 3</span><span class="plate-title">The path of one item</span></figcaption>
               <canvas class="plate-canvas" data-plate-canvas role="img" aria-label="Schematic: one item's path across a terrain, one waypoint per step of the workflow. A marker waits at each step a person does, in proportion to its minutes. With Native Leap the terrain flattens and the path straightens; the old route stays as a dashed line."></canvas>
               <div class="plate-foot"><span>Filled: a person's time. Ring: runs on its own. Blue: the route with Native Leap. The marker waits one second for every three minutes. Terrain is schematic.</span><button type="button" class="plate-toggle" data-plate-toggle aria-pressed="false" hidden>Pause</button></div>
@@ -304,7 +309,7 @@
           <div class="stat"><dt class="mono">Weeks from first call to live</dt><dd><span data-count="11">11</span></dd></div>
         </dl>
 
-        <figure class="plate plate--paper chart-plate" data-plate="chart">
+        <figure class="plate plate--paper chart-plate" data-plate="chart" data-needs-script>
           <figcaption class="plate-head"><span class="plate-num">Fig. 4</span><span class="plate-title">Minutes per order, by rep</span></figcaption>
           <div class="chart" data-chart></div>
           <div class="plate-foot"><span>Thin lines: six reps, daily. Heavy line: all reps, 7-day average, violet from go-live. Shaded: Prove pilot on two reps. Dashed: go-live. Illustrative synthetic series; replace with engagement data.</span><span class="chart-readout" data-chart-readout aria-live="polite"></span></div>

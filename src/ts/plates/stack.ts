@@ -140,7 +140,6 @@ export function initStackPlate(): void {
 
   const reduced = prefersReducedMotion();
   mountPlate(figure, {
-    heightFor: (w) => (w >= WIDE ? clamp(TITLE + 14 + slotWidth(w) * 0.9, 230, 300) : 5 * (TITLE + SLOT_V) + 4 * GAP_V),
     layout(w, h, dpr) {
       width = w;
       height = h;

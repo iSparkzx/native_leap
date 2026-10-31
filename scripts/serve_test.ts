@@ -10,7 +10,10 @@ const assertStatus = async (path: string, expected: number, host?: string) => {
   if (response.status !== expected) throw new Error(`${path} (Host ${host ?? "default"}) returned ${response.status}, expected ${expected}`);
 };
 
-// The test runs with unscoped --allow-read, so only the server's own path check can refuse these.
+if (Deno.permissions.querySync({ name: "read", path: "/etc/os-release" }).state !== "granted") {
+  throw new Error("Run with unscoped --allow-read, so these cases test the server's path check, not Deno's permissions.");
+}
+
 Deno.test("refuses an encoded absolute path outside dist/", () => assertStatus("/%2Fetc%2Fos-release", 404));
 Deno.test("refuses a file: URL outside dist/", () => assertStatus("/file:%2F%2F%2Fetc%2Fos-release", 404));
 Deno.test("refuses an encoded parent path", () => assertStatus("/..%2fdeno.json", 404));

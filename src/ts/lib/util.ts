@@ -60,3 +60,9 @@ export function splitChars(el: HTMLElement, className: string): HTMLSpanElement[
     return span;
   });
 }
+
+export const scriptedStatesOn = (): boolean => document.documentElement.classList.contains("js");
+
+export const markScriptsReady = (): void => {
+  document.documentElement.classList.add("js-ready");
+};

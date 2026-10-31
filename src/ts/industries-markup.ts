@@ -29,8 +29,9 @@ export const stepsHtml = (steps: WorkflowStep[]): string =>
     )
     .join("");
 
-/** Fills for the `<!-- @industry name -->` markers in index.html: the first industry, as it runs today. */
-export function industryMarkers(): Record<string, string> {
+type IndustryMarker = "title" | "unit" | "steps" | "total";
+
+export function firstIndustryFill(): Record<IndustryMarker, string> {
   const first = industries[0];
   return {
     title: escapeHtml(first.workflow),
