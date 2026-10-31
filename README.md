@@ -101,6 +101,7 @@ Requires [Deno](https://deno.com) 2.4 or newer (for `deno bundle`, which is stil
 ```sh
 deno task build   # type-check src/ts, bundle to dist/
 deno task dev     # build, then serve dist/ at http://127.0.0.1:5174
+deno task test    # run the script tests
 ```
 
 You can also open `dist/index.html` straight from disk. `dist/standalone.html` is the same page as one file.
