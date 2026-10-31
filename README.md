@@ -138,5 +138,5 @@ The copy assumes Native Leap is an AI enablement consultancy for distributors, m
 ## Motion and accessibility
 
 - Without WebGL the hero falls back to a static CSS horizon glow. `prefers-reduced-motion` draws one still frame of the field and turns off the intro, band shift, word fill, counters and stack pulse. Everything renders in its final state.
-- Hero content has a CSS fallback that shows it after 3 seconds if the script fails.
+- If `main.js` has not started within 4 seconds (missing, blocked, or too new for the browser), an inline script in `index.html` removes the `.js` class, so every section shows without its effects. Each module starts in its own try/catch, and the reveal starts first, so one failing module can't hide content.
 - Industry tabs work with arrow keys, Home and End. Stack layers are focusable.

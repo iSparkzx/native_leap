@@ -1,6 +1,7 @@
-import { industries, type Industry, type WorkflowStep } from "../content.ts";
+import { industries, type Industry } from "../content.ts";
+import { stepsHtml, tabsHtml, totalMinutes as total } from "../industries-markup.ts";
 import { onTick } from "../lib/ticker.ts";
-import { clamp, escapeHtml, prefersReducedMotion } from "../lib/util.ts";
+import { clamp, prefersReducedMotion } from "../lib/util.ts";
 
 /* Industries: pick an industry, then flip one of its workflows between how it runs today and how it runs after.
    Steps swap with a short stagger and the time total counts to its new value. */
@@ -8,8 +9,6 @@ import { clamp, escapeHtml, prefersReducedMotion } from "../lib/util.ts";
 type Mode = "today" | "after";
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
-const total = (steps: WorkflowStep[]): number => steps.reduce((sum, s) => sum + (s.minutes ?? 0), 0);
-
 export function initIndustries(): void {
   const tabList = document.querySelector<HTMLElement>(".ind-tabs");
   const title = document.querySelector<HTMLElement>("[data-ind-title]");
@@ -27,29 +26,13 @@ export function initIndustries(): void {
   let shownTotal = total(current.today);
   let stopCount: (() => void) | null = null;
 
-  tabList.innerHTML = industries
-    .map(
-      (ind, i) =>
-        `<button class="ind-tab" type="button" role="tab" id="tab-${ind.id}" aria-controls="ind-panel" ` +
-        `aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${escapeHtml(ind.name)}` +
-        `<span class="mono">0${i + 1}</span></button>`,
-    )
-    .join("");
+  tabList.innerHTML = tabsHtml();
   const tabs = Array.from(tabList.querySelectorAll<HTMLButtonElement>(".ind-tab"));
+  // Without scripts the build shows the first workflow as plain content; the tabs and toggle need this script.
+  tabList.hidden = false;
+  toggle.hidden = false;
+  panel.setAttribute("role", "tabpanel");
   panel.setAttribute("aria-labelledby", tabs[0].id);
-
-  const stepsHtml = (steps: WorkflowStep[]): string =>
-    steps
-      .map(
-        (s, i) =>
-          `<li class="ind-step"><span class="mono">${String(i + 1).padStart(2, "0")}</span>` +
-          `<span class="ind-step-text">${escapeHtml(s.text)}</span>` +
-          (s.minutes === null
-            ? `<span class="ind-step-time"><span class="ind-step-auto">Automatic</span></span>`
-            : `<span class="ind-step-time mono">${s.minutes} min</span>`) +
-          `</li>`,
-      )
-      .join("");
 
   const placeThumb = (): void => {
     const on = buttons.find((b) => b.dataset.mode === mode);
