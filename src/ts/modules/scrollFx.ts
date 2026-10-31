@@ -100,6 +100,8 @@ export function initCounters(): void {
           el.textContent = String(target);
           continue;
         }
+        // The markup carries the real value for readers ahead of the scroll and for no-script visitors.
+        el.textContent = "0";
         const start = performance.now();
         const stop = onTick((_dt, now) => {
           const t = clamp((now - start) / 1600, 0, 1);

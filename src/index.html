@@ -140,7 +140,7 @@
             <span class="note-cta" aria-hidden="true">Watch the video <span class="arrow">→</span></span>
           </li>
         </ul>
-        <form class="subscribe" data-form data-sent="Thanks. This is a placeholder signup, so nothing was sent." novalidate>
+        <form class="subscribe" data-form data-sent="Thanks. This is a placeholder signup, so nothing was sent." method="post">
           <label class="subscribe-label" for="notes-email"><b>One field note a month.</b> No pitch, and you can unsubscribe any time.</label>
           <div class="subscribe-row">
             <input id="notes-email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required>
@@ -226,7 +226,7 @@
           <p class="label mono"><span>(04)</span> How it works</p>
           <h2 class="h2" id="stack-title" data-reveal>What we build is yours to&nbsp;keep.</h2>
           <p class="lede" data-reveal>Every engagement runs on the same delivery stack, so the second workflow costs a fraction of the first. It lives in your accounts, not ours.</p>
-          <p class="stack-detail mono" aria-live="polite" data-stack-detail>Hover a layer to see what it does.</p>
+          <p class="stack-detail mono" aria-live="polite" data-stack-detail></p>
         </div>
 
         <ol class="layers" aria-label="Delivery stack, from your systems to your team">
@@ -259,7 +259,7 @@
 
         <div class="ind-grid">
           <div class="ind-side">
-            <div class="ind-tabs" role="tablist" aria-label="Industry">
+            <div class="ind-tabs" role="tablist" aria-label="Industry" hidden>
               <!-- rendered from content.ts -->
             </div>
             <figure class="plate plate--rule ind-plate" data-plate="industry">
@@ -269,20 +269,20 @@
             </figure>
           </div>
 
-          <div class="ind-panel" id="ind-panel" role="tabpanel">
+          <div class="ind-panel" id="ind-panel">
             <div class="ind-head">
               <p class="mono ind-kicker">Example workflow</p>
-              <h3 class="ind-title" data-ind-title>Order entry from emailed POs</h3>
+              <h3 class="ind-title" data-ind-title><!-- @industry title --></h3>
             </div>
-            <div class="toggle" role="group" aria-label="Show the workflow">
+            <div class="toggle" role="group" aria-label="Show the workflow" hidden>
               <button type="button" class="toggle-btn" aria-pressed="true" data-mode="today">Today</button>
               <button type="button" class="toggle-btn" aria-pressed="false" data-mode="after">With Native Leap</button>
               <i class="toggle-thumb" aria-hidden="true"></i>
             </div>
-            <ol class="ind-steps" data-ind-steps></ol>
+            <ol class="ind-steps" data-ind-steps><!-- @industry steps --></ol>
             <div class="ind-total">
-              <span class="mono">Time per order</span>
-              <span class="ind-total-num"><span data-ind-total>18</span> min</span>
+              <span class="mono"><!-- @industry unit --></span>
+              <span class="ind-total-num"><span data-ind-total><!-- @industry total --></span> min</span>
             </div>
             <p class="fineprint mono">Illustrative times. Your real numbers come out of Assess.</p>
           </div>
@@ -297,9 +297,9 @@
         <h2 class="h2 results-title" id="results-title" data-reveal>A regional distributor got its inside sales team&nbsp;back.</h2>
 
         <dl class="stats">
-          <div class="stat"><dt class="mono">Less time on order entry</dt><dd><span data-count="82">0</span>%</dd></div>
-          <div class="stat"><dt class="mono">Hours back per rep, per week</dt><dd><span data-count="9">0</span></dd></div>
-          <div class="stat"><dt class="mono">Weeks from first call to live</dt><dd><span data-count="11">0</span></dd></div>
+          <div class="stat"><dt class="mono">Less time on order entry</dt><dd><span data-count="82">82</span>%</dd></div>
+          <div class="stat"><dt class="mono">Hours back per rep, per week</dt><dd><span data-count="9">9</span></dd></div>
+          <div class="stat"><dt class="mono">Weeks from first call to live</dt><dd><span data-count="11">11</span></dd></div>
         </dl>
 
         <figure class="plate plate--paper chart-plate" data-plate="chart">
@@ -479,7 +479,7 @@
           <h2 class="h2 contact-title" id="contact-title" data-reveal>Bring us the process that eats the most&nbsp;hours.</h2>
           <p class="lede" data-reveal>Thirty minutes. We'll tell you honestly whether AI is the right fix, and what it would take.</p>
         </div>
-        <form class="form" data-form novalidate>
+        <form class="form" data-form method="post">
           <label class="field">
             <span class="mono">Work email</span>
             <input type="email" name="email" autocomplete="email" placeholder="you@company.com" required>
