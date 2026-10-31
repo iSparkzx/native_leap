@@ -14,25 +14,34 @@ import { initIndustryPlate } from "./plates/industry.ts";
 import { initStackPlate } from "./plates/stack.ts";
 import { initThumbs } from "./plates/thumbs.ts";
 
-// Plates listen for events from the sections they illustrate, so they start first. A figure that fails to start
-// must not take the rest of the page down with it.
-for (const initPlate of [initApproachPlate, initStackPlate, initIndustryPlate, initResultsChart, initThumbs]) {
+// Plates listen for events from the sections they illustrate, so they start first. The reveal starts next, so no
+// later failure can leave content hidden. Each init is isolated: one that throws must not take the rest down.
+const inits = [
+  initApproachPlate,
+  initStackPlate,
+  initIndustryPlate,
+  initResultsChart,
+  initThumbs,
+  initReveal,
+  initIndustries,
+  initStatementFill,
+  initHeader,
+  initIntro,
+  initField,
+  initBandShift,
+  initCounters,
+  initLadder,
+  initStack,
+  initTeam,
+  initNotes,
+  initForm,
+];
+for (const init of inits) {
   try {
-    initPlate();
+    init();
   } catch (error) {
     console.error(error);
   }
 }
-initIndustries();
-initStatementFill();
-initHeader();
-initIntro();
-initField();
-initBandShift();
-initReveal();
-initCounters();
-initLadder();
-initStack();
-initTeam();
-initNotes();
-initForm();
+// Tells the failsafe in index.html that the scripted states are driven, so it keeps .js.
+document.documentElement.classList.add("js-ready");

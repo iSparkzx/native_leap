@@ -1765,11 +1765,11 @@ button, input {
   scroll-padding-inline: var(--edge);
 }
 
-.js .team-track {
+.team-track.is-enhanced {
   scrollbar-width: none;
 }
 
-.js .team-track::-webkit-scrollbar {
+.team-track.is-enhanced::-webkit-scrollbar {
   display: none;
 }
 
@@ -2291,7 +2291,9 @@ button, input {
   color: var(--ink);
 }
 
-/* ---------- Motion states (only with JS; content is never left hidden without it) ---------- */
+/* ---------- Motion states ----------
+   Only under .js. The inline script in index.html removes .js if main.js has not started within 4s, so content
+   hidden here is never left hidden without it. */
 
 .js [data-intro] {
   opacity: 0;
@@ -2363,7 +2365,8 @@ button, input {
     display: none;
   }
 
-  .menu-toggle {
+  /* Without scripts the menu can't open, so only the footer nav remains. */
+  .js .menu-toggle {
     display: inline-flex;
   }
 }

@@ -95,6 +95,7 @@ export function initTeam(): void {
 
   nav.hidden = false;
   dots.hidden = false;
+  track.classList.add("is-enhanced");
   measure();
   sync();
 }
