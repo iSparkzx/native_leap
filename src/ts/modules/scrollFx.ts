@@ -1,4 +1,4 @@
-import { onTick } from "../lib/ticker.ts";
+import { onScrollFrame, onTick } from "../lib/ticker.ts";
 import { clamp, prefersReducedMotion } from "../lib/util.ts";
 
 const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
@@ -24,7 +24,7 @@ export function initStatementFill(): void {
   }
 
   let lit = -1;
-  onTick(() => {
+  onScrollFrame(() => {
     const rect = el.getBoundingClientRect();
     const vh = window.innerHeight;
     if (rect.bottom < -200 || rect.top > vh + 200) return;
@@ -44,21 +44,23 @@ export function initBandShift(): void {
   const MAX = 12;
   const last = new Map<HTMLElement, string>();
 
-  onTick(() => {
+  onScrollFrame(() => {
     const vh = window.innerHeight;
-    for (const band of bands) {
-      const rect = band.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > vh) continue;
+    // Read every band's position before writing any, so the writes don't force a layout per band.
+    const rects = bands.map((band) => band.getBoundingClientRect());
+    bands.forEach((band, i) => {
+      const rect = rects[i];
+      if (rect.bottom < 0 || rect.top > vh) return;
       const enter = clamp((vh - rect.top) / (vh * 0.45), 0, 1);
       const leave = clamp((vh * 0.45 - rect.bottom) / (vh * 0.45), 0, 1);
       const shiftL = (1 - easeOutCubic(enter)) * MAX;
       const shiftR = Math.pow(leave, 3) * MAX;
       const key = `${shiftL.toFixed(2)}|${shiftR.toFixed(2)}`;
-      if (last.get(band) === key) continue;
+      if (last.get(band) === key) return;
       last.set(band, key);
       band.style.setProperty("--shift-l", `${shiftL.toFixed(2)}%`);
       band.style.setProperty("--shift-r", `${shiftR.toFixed(2)}%`);
-    }
+    });
   });
 }
 

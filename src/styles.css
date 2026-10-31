@@ -352,6 +352,20 @@ html:not(.js) .site-header {
   color: var(--fg);
 }
 
+/* Set inline on each white band by scrollFx.ts as it enters and leaves. Not inherited, so a change restyles the
+   band alone, not everything inside it. */
+@property --shift-l {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+@property --shift-r {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
 .band--light {
   z-index: 1;
   clip-path: inset(0 var(--shift-r, 0%) 0 var(--shift-l, 0%) round var(--seam) 0 var(--seam) 0);
