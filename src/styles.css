@@ -300,8 +300,9 @@ html:not(.js) .site-header {
   margin-left: -8px; /* the SVG carries its own clear space */
 }
 
+/* Never below the brand's 180px minimum for the horizontal logo; that width includes the artwork's padding. */
 .logo--horizontal {
-  width: clamp(150px, 14vw, 188px);
+  width: clamp(180px, 14vw, 188px);
   height: auto;
 }
 
@@ -567,8 +568,9 @@ html:not(.js) .site-header {
   text-wrap: pretty;
 }
 
+/* Unlit words at 0.46 still read at 4.5:1 on Obsidian. */
 .js .statement-text .w {
-  color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.46);
   transition: color 0.35s linear;
 }
 
@@ -628,6 +630,9 @@ html:not(.js) .site-header {
   gap: 8px 24px;
   padding: 36px 0 56px;
   border-top: 1px solid var(--line);
+}
+
+.step > * {
   transition: opacity 0.6s var(--ease-out);
 }
 
@@ -635,8 +640,14 @@ html:not(.js) .site-header {
   border-bottom: 1px solid var(--line);
 }
 
-.js .step:not(.is-active) {
-  opacity: 0.3;
+/* Steps away from the reading line dim, but stay readable: titles are large text and keep 3:1 at 0.45, the rest
+   keeps 4.5:1 at 0.9. */
+.js .step:not(.is-active) > * {
+  opacity: 0.9;
+}
+
+.js .step:not(.is-active) .step-title {
+  opacity: 0.45;
 }
 
 .step-meta {
@@ -713,7 +724,7 @@ html:not(.js) .site-header {
   padding-top: 16px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -1235,7 +1246,7 @@ html:not(.js) .site-header {
   max-width: 54ch;
   margin-top: 8px;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -1374,7 +1385,7 @@ html:not(.js) .site-header {
 .case-metric {
   margin-top: 14px;
   color: var(--silver);
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .case-metric b {
@@ -1902,7 +1913,7 @@ html:not(.js) .site-header {
   max-width: 30ch;
   margin-top: 10px;
   color: var(--silver);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.45;
 }
 
@@ -2493,7 +2504,7 @@ html:not(.js) .ind-grid {
     flex-wrap: wrap;
   }
 
-  .js .step:not(.is-active) {
+  .js .step:not(.is-active) > * {
     opacity: 1;
   }
 
@@ -2692,10 +2703,6 @@ html:not(.js) .ind-grid {
 }
 
 @media (max-width: 420px) {
-  .logo--horizontal {
-    width: 140px;
-  }
-
   .nav .pill:not(.menu-toggle):not(.pill--quiet) {
     display: none;
   }
