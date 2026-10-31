@@ -22,7 +22,6 @@ export function makeLayer(width: number, height: number, dpr: number): Layer {
 }
 
 export interface PlateApp {
-  heightFor(width: number): number;
   layout(width: number, height: number, dpr: number): void;
   frame(ctx: CanvasRenderingContext2D, t: number): void;
 }
@@ -61,12 +60,12 @@ export function mountPlate(figure: HTMLElement, app: PlateApp): PlateHandle | nu
 
   const relayout = (force = false): void => {
     const w = Math.round(canvas.clientWidth);
+    const h = Math.round(canvas.clientHeight);
     const nextDpr = Math.min(2, window.devicePixelRatio || 1);
-    if (!w || (!force && w === width && nextDpr === dpr)) return;
+    if (!w || !h || (!force && w === width && h === height && nextDpr === dpr)) return;
     width = w;
+    height = h;
     dpr = nextDpr;
-    height = Math.round(app.heightFor(width));
-    canvas.style.height = `${height}px`;
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     app.layout(width, height, dpr);

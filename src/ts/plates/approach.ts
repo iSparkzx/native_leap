@@ -42,7 +42,6 @@ export function initApproachPlate(): void {
   const titleEl = figure.querySelector<HTMLElement>("[data-plate-title]");
   const canvas = figure.querySelector<HTMLCanvasElement>("[data-plate-canvas]");
   const scenes = FIGURES.map((f) => f.make());
-  const compact = window.matchMedia("(max-width: 900px)");
 
   let layers: Layer[] = [];
   let width = 0;
@@ -64,7 +63,6 @@ export function initApproachPlate(): void {
 
   let handle: PlateHandle | null = null;
   handle = mountPlate(figure, {
-    heightFor: (w) => (compact.matches ? clamp(w * 0.5, 170, 230) : Math.round(w * 0.84)),
     layout(w, h, dpr) {
       width = w;
       height = h;

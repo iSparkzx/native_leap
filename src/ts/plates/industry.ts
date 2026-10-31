@@ -150,7 +150,6 @@ export function initIndustryPlate(): void {
   // Assigned after mounting; the first frame is drawn during mountPlate, before this exists.
   let handle: PlateHandle | null = null;
   handle = mountPlate(figure, {
-    heightFor: (w) => clamp(w * 0.62, 210, 290),
     layout(w, hgt, d) {
       width = w;
       height = hgt;

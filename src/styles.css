@@ -2260,8 +2260,6 @@ html:not(.js) .ind-grid {
   min-height: clamp(300px, 34cqi, 380px);
 }
 
-/* Each figure's final height, reserved before its script draws it so nothing below jumps. Same formulas as
-   heightFor in plates/*.ts and the chart's build(), in units of the figure's own width. */
 [data-plate="approach"] .plate-canvas {
   height: 84cqi;
 }
