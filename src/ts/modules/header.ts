@@ -48,6 +48,8 @@ export function initHeader(): void {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.textContent = open ? "Close" : "Menu";
     document.documentElement.style.overflow = open ? "hidden" : "";
+    // The menu covers the page, so the page behind it leaves the tab order and the accessibility tree.
+    for (const el of document.querySelectorAll<HTMLElement>("main, footer")) el.inert = open;
     if (open) menu.querySelector<HTMLAnchorElement>("a")?.focus();
     update();
   };
