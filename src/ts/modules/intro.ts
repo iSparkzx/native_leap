@@ -1,4 +1,4 @@
-import { prefersReducedMotion } from "../lib/util.ts";
+import { prefersReducedMotion, scriptedStatesOn } from "../lib/util.ts";
 
 /* Hero entrance: the symbol and badge rise in, headline lines slide up out of their masks,
    then the supporting copy follows. Waits for Geist so lines don't reflow mid-animation. */
@@ -6,8 +6,7 @@ import { prefersReducedMotion } from "../lib/util.ts";
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 export function initIntro(): void {
-  // Arriving after the index.html failsafe dropped .js, the hero is already shown; don't hide it to replay.
-  if (prefersReducedMotion() || !document.documentElement.classList.contains("js")) return;
+  if (prefersReducedMotion() || !scriptedStatesOn()) return;
 
   const run = (): void => {
     const rise = (el: Element | null, delay: number, distance = 18): void => {

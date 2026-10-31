@@ -46,7 +46,6 @@ export function initBandShift(): void {
 
   onScrollFrame(() => {
     const vh = window.innerHeight;
-    // Read every band's position before writing any, so the writes don't force a layout per band.
     const rects = bands.map((band) => band.getBoundingClientRect());
     bands.forEach((band, i) => {
       const rect = rects[i];
@@ -102,7 +101,6 @@ export function initCounters(): void {
           el.textContent = String(target);
           continue;
         }
-        // The markup carries the real value for readers ahead of the scroll and for no-script visitors.
         el.textContent = "0";
         const start = performance.now();
         const stop = onTick((_dt, now) => {

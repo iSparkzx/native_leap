@@ -5,7 +5,6 @@ export function initForm(): void {
   for (const form of document.querySelectorAll<HTMLFormElement>("[data-form]")) {
     const status = form.querySelector<HTMLElement>("[data-form-status]");
     if (!status) continue;
-    // Validation messages come from this script; without it the browser validates natively.
     form.noValidate = true;
 
     const email = form.querySelector<HTMLInputElement>('input[name="email"]');

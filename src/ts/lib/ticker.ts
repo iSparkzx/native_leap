@@ -11,7 +11,6 @@ function frame(now: number): void {
     try {
       fn(dt, now);
     } catch (error) {
-      // Drop only the failing animation; the rest of the page keeps moving.
       subscribers.delete(fn);
       console.error(error);
     }
@@ -33,9 +32,10 @@ export function onTick(fn: TickFn): () => void {
   };
 }
 
-/** Runs `fn` at most once per frame, and only after the page scrolls or resizes or its fonts load, plus once now.
- * Unlike `onTick`, it leaves an idle page idle. Returns a function that schedules `fn` for other state changes. */
-export function onScrollFrame(fn: () => void): () => void {
+type Reschedule = () => void;
+
+/** Runs `fn` on the next frame, then again after each scroll, resize or font load, at most once a frame. */
+export function onScrollFrame(fn: () => void): Reschedule {
   let queued = false;
   const schedule = (): void => {
     if (queued) return;

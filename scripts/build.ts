@@ -1,10 +1,9 @@
 /// <reference lib="deno.ns" />
-import { industryMarkers } from "../src/ts/industries-markup.ts";
+import { firstIndustryFill } from "../src/ts/industries-markup.ts";
 
 // Builds dist/: index.html + styles.css + main.js + brand assets, plus standalone.html with everything inlined.
 // Logo markers in src/index.html (<!-- @logo horizontal class="x" decorative -->) are replaced with the supplied
 // brand-kit SVG, unchanged except that its white fill becomes currentColor so CSS can set pure #FFF or #000.
-// Industry markers (<!-- @industry steps -->) are filled from src/ts/content.ts.
 
 const root = new URL("../", import.meta.url);
 const src = new URL("src/", root);
@@ -56,8 +55,7 @@ for (const [marker, kind, className, decorative] of markers) {
   html = html.replace(marker, () => svg);
 }
 
-// The first industry's workflow, so the Industries section reads without scripts.
-const industry = industryMarkers();
+const industry: Record<string, string> = firstIndustryFill();
 html = html.replace(/<!-- @industry (\w+) -->/g, (_, key: string) => {
   if (!Object.hasOwn(industry, key)) throw new Error(`Unknown industry marker: ${key}`);
   return industry[key];
