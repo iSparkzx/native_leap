@@ -11,7 +11,7 @@
   },
   "tasks": {
     "check": "deno check src/ts/main.ts",
-    "build": "deno check src/ts/main.ts && deno run --allow-read --allow-write --allow-run --allow-env scripts/build.ts",
+    "build": "deno check src/ts/main.ts && deno run --allow-read --allow-write=dist,dist.tmp --allow-run scripts/build.ts",
     "dev": "deno task build && deno run --allow-net=127.0.0.1:5174 --allow-read=dist scripts/serve.ts",
     "test": "deno test --allow-read"
   }

@@ -1,5 +1,6 @@
 # Build output. Regenerate with `deno task build`.
 dist/
+dist.tmp/
 
 # OS and editor files
 .DS_Store
