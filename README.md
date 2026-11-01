@@ -130,6 +130,7 @@ You can also open `dist/index.html` straight from disk. `dist/standalone.html` i
 | `src/ts/modules/form.ts` | Placeholder contact form and field-notes signup |
 | `src/ts/modules/header.ts` | Header follows the band colour beneath it, hides on scroll down, mobile menu |
 | `src/assets/brand/` | Logo SVGs and favicons copied unchanged from the brand kit |
+| `src/assets/fonts/` | Geist (from the brand kit), Geist Mono and STIX Two Text as WOFF2, with their SIL Open Font License texts. The site serves them itself, and `standalone.html` embeds them |
 
 ## Placeholder content
 
